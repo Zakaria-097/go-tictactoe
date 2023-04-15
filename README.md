@@ -8,13 +8,15 @@ A basic TicTacToe implementation in Golang
 
 ![](assets/start.png)
 
-enter player names for both users
+Player 1 and Player 2 names are required.
 
 ### Board Codes
 
 ![](assets/boardCodes.png)
 
 These are the board position codes. `tl` represents top left position, `bm` bottom middle position, `mr` middle right, and so on. 
+
+### Start the game
 
 To start the game, simply ...
 
