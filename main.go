@@ -1,6 +1,6 @@
 package main
 
-import "github.com/Zakaria-097/go-tictactoe/internal/game"
+import game "github.com/Zakaria-097/go-tictactoe/internal/game"
 
 func main() {
 
