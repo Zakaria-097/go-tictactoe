@@ -6,18 +6,6 @@ type Position string
 // nought or cross
 type Symbol *string
 
-const (
-	TL Position = "tl"
-	TM Position = "tm"
-	TR          = "tr"
-	ML          = "ml"
-	MM          = "mm"
-	MR          = "mr"
-	BL          = "bl"
-	BM          = "bm"
-	BR          = "br"
-)
-
 type Player struct {
 	player1Name string
 	player2Name string
@@ -65,3 +53,15 @@ func NewTicTacToe(player1Name, player2Name string) *TicTacToe {
 
 	return out
 }
+
+const (
+	TL Position = "tl"
+	TM Position = "tm"
+	TR          = "tr"
+	ML          = "ml"
+	MM          = "mm"
+	MR          = "mr"
+	BL          = "bl"
+	BM          = "bm"
+	BR          = "br"
+)

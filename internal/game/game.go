@@ -7,36 +7,47 @@ import (
 	"github.com/zs5460/art"
 )
 
-func (t *TicTacToe) Cast(m string, pos Position) {
-	if t.isPositionAvailable(pos) {
+func Start() {
+	fmt.Println(art.String("\nTicTacToe\n"))
 
-		// cast symbol
-		*t.PositionsMap[pos] = m
+	fmt.Println("\nThis program is a basic TicTacToe Implementation in Golang")
 
-		// switch player turns
-		t.player.playerTurn = !t.player.playerTurn
-
-		// show board
-		t.showBoard()
-	} else {
-		t.showBoard()
-		fmt.Printf("\n\nError: That position is already taken by %q. Try again.\n", strings.TrimSuffix(fmt.Sprint(*t.PositionsMap[pos])[1:], "}"))
+	//Board Position Codes
+	boardCodes := func() {
+		fmt.Println("\n\n                   Board Position Codes")
+		fmt.Println("\n	              {tl}", "{tm}", "{tr}")
+		fmt.Println("\n	              {ml}", "{mm}", "{mr}")
+		fmt.Println("\n                      {bl}", "{bm}", "{br}")
+		fmt.Println()
 	}
-}
 
-func (t *TicTacToe) isPositionAvailable(pos Position) bool {
-	return *t.PositionsMap[pos] == "{_}"
-}
+	//inital variables
+	var player1Name string
+	var player2Name string
+	var finished bool
 
-// showBoard state of the board.
-func (t *TicTacToe) showBoard() {
-	for i := range t.Board {
-		fmt.Printf("\n\n	%s\n", strings.Join(t.Board[i], " "))
+	for player1Name == "" {
+		print("\nPlayer 1: Enter your name: ")
+		fmt.Scanln(&player1Name)
 	}
+
+	for player2Name == "" {
+		print("\nPlayer 2: Enter your name: ")
+		fmt.Scanln(&player2Name)
+	}
+
+	boardCodes()
+
+	fmt.Printf("\n\n		%v is X", player1Name)
+	fmt.Printf("		%v is O\n", player2Name)
+
+	game := NewTicTacToe(player1Name, player2Name)
+
+	game.Play(finished)
 }
 
-func (t *TicTacToe) Play(finished bool) {
-	for !finished {
+func (t *TicTacToe) Play(gameFinished bool) {
+	for !gameFinished {
 
 		player1Turn := t.player.playerTurn
 
@@ -69,46 +80,34 @@ func (t *TicTacToe) Play(finished bool) {
 		didPlayer1Win := t.DidPlayer1Win(firstLine, secondLine, thirdLine, firstRow, secondRow, thirdRow, diagonal1, diagonal2)
 		didPlayer2Win := t.DidPlayer2Win(firstLine, secondLine, thirdLine, firstRow, secondRow, thirdRow, diagonal1, diagonal2)
 
-		finished = t.HasGameFinished(didPlayer1Win, didPlayer2Win)
-
+		gameFinished = t.HasGameFinished(didPlayer1Win, didPlayer2Win)
 	}
 }
 
-func Start() {
-	fmt.Println(art.String("\nTicTacToe\n"))
+func (t *TicTacToe) Cast(m string, pos Position) {
+	if t.isPositionAvailable(pos) {
 
-	fmt.Println("\nThis program is a basic TicTacToe Implementation in Golang")
+		// cast symbol
+		*t.PositionsMap[pos] = m
 
-	//inital variables
-	var player1Name string
-	var player2Name string
-	var finished bool
+		// switch player turns
+		t.player.playerTurn = !t.player.playerTurn
 
-	//Board Position Codes
-	boardCodes := func() {
-		fmt.Println("\n\n                   Board Position Codes")
-		fmt.Println("\n	              {tl}", "{tm}", "{tr}")
-		fmt.Println("\n	              {ml}", "{mm}", "{mr}")
-		fmt.Println("\n                      {bl}", "{bm}", "{br}")
-		fmt.Println()
+		// show board
+		t.showBoard()
+	} else {
+		t.showBoard()
+		fmt.Printf("\n\nError: That position is already taken by %q. Try again.\n", strings.TrimSuffix(fmt.Sprint(*t.PositionsMap[pos])[1:], "}"))
 	}
+}
 
-	for player1Name == "" {
-		print("\nPlayer 1: Enter your name: ")
-		fmt.Scanln(&player1Name)
+func (t *TicTacToe) isPositionAvailable(pos Position) bool {
+	return *t.PositionsMap[pos] == "{_}"
+}
+
+// showBoard state of the board.
+func (t *TicTacToe) showBoard() {
+	for i := range t.Board {
+		fmt.Printf("\n\n	%s\n", strings.Join(t.Board[i], " "))
 	}
-
-	for player2Name == "" {
-		print("\nPlayer 2: Enter your name: ")
-		fmt.Scanln(&player2Name)
-	}
-
-	boardCodes()
-
-	fmt.Printf("\n\n		%v is X", player1Name)
-	fmt.Printf("		%v is O\n", player2Name)
-
-	game := NewTicTacToe(player1Name, player2Name)
-
-	game.Play(finished)
 }
