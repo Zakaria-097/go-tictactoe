@@ -14,7 +14,7 @@ Player 1 and Player 2 names are required.
 
 ![](assets/boardCodes.png)
 
-These are the board position codes. `tl` represents top left position, `bm` bottom middle position, `mr` middle right, and so on. 
+These are the board position codes. `tl` represents top left position, `bm` bottom middle, `mr` middle right, and so on. 
 
 ### Start the game
 
