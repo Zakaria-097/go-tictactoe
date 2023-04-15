@@ -7,96 +7,51 @@ import (
 	"github.com/zs5460/art"
 )
 
-type Position string
-
-const (
-	TL Position = "tl"
-	TM Position = "tm"
-	TR          = "tr"
-	ML          = "ml"
-	MM          = "mm"
-	MR          = "mr"
-	BL          = "bl"
-	BM          = "bm"
-	BR          = "br"
-)
-
-type Player struct {
-	playerTurn  bool
-	Player1Move string
-	Player2Move string
-}
-
-type TicTacToe struct {
-	Board        [][]string
-	player       *Player
-	PositionsMap map[Position]*string
-}
-
-// NewTicTacToe Do something.
-func NewTicTacToe() *TicTacToe {
-	out := &TicTacToe{
-		// create 3 by 3 tic-tac-toe board
-		Board: [][]string{
-			{"{_}", "{_}", "{_}"},
-			{"{_}", "{_}", "{_}"},
-			{"{_}", "{_}", "{_}"},
-		},
-		PositionsMap: make(map[Position]*string),
-		player:       &Player{playerTurn: true, Player1Move: "{X}", Player2Move: "{O}"},
-	}
-
-	out.PositionsMap[TL] = &out.Board[0][0]
-	out.PositionsMap[TM] = &out.Board[0][1]
-	out.PositionsMap[TR] = &out.Board[0][2]
-	out.PositionsMap[ML] = &out.Board[1][0]
-	out.PositionsMap[MM] = &out.Board[1][1]
-	out.PositionsMap[MR] = &out.Board[1][2]
-	out.PositionsMap[BL] = &out.Board[2][0]
-	out.PositionsMap[BM] = &out.Board[2][1]
-	out.PositionsMap[BR] = &out.Board[2][2]
-
-	return out
-}
-
 func (t *TicTacToe) Cast(m string, pos Position) {
-	if !t.CheckPosition(pos) {
-		t.player.playerTurn = !t.player.playerTurn
+	if t.isPositionAvailable(pos) {
+
+		// cast symbol
 		*t.PositionsMap[pos] = m
-		t.latest()
+
+		// switch player turns
+		t.player.playerTurn = !t.player.playerTurn
+
+		// show board
+		t.showBoard()
+	} else {
+		t.showBoard()
+		fmt.Printf("\n\nError: That position is already taken by %q. Try again.\n", strings.TrimSuffix(fmt.Sprint(*t.PositionsMap[pos])[1:], "}"))
 	}
 }
 
-// latest state of the board.
-func (t *TicTacToe) latest() {
+func (t *TicTacToe) isPositionAvailable(pos Position) bool {
+	return *t.PositionsMap[pos] == "{_}"
+}
+
+// showBoard state of the board.
+func (t *TicTacToe) showBoard() {
 	for i := range t.Board {
-		fmt.Printf("\n	%s\n", strings.Join(t.Board[i], " "))
+		fmt.Printf("\n\n	%s\n", strings.Join(t.Board[i], " "))
 	}
 }
 
-func (t *TicTacToe) CheckPosition(p Position) (occupied bool) {
-	occupied = *t.PositionsMap[p] != "{_}"
-	if occupied {
-		fmt.Printf("\nPosition %v is Already Occupied. Try Again.\n", p)
-		t.latest()
-	}
-	return occupied
-}
-
-func (t *TicTacToe) Play(Input1 string, Input2 string, finished bool) {
+func (t *TicTacToe) Play(finished bool) {
 	for !finished {
+
+		player1Turn := t.player.playerTurn
+
 		switch {
-		case t.player.playerTurn: //player1's turn
+		case player1Turn: //player1's turn
 			var p1_Input Position
 			for p1_Input == "" {
-				fmt.Printf("\n\n%v> Enter Position Code: ", Input1)
+				fmt.Printf("\n\n%v> Enter Position Code: ", t.player.player1Name)
 				fmt.Scanln(&p1_Input)
 			}
 			t.Cast(t.player.Player1Move, p1_Input)
-		case !t.player.playerTurn: //player2's turn
+		case !player1Turn: //player2's turn
 			var p2_Input Position
 			for p2_Input == "" {
-				fmt.Printf("\n\n%v> Enter Position Code: ", Input2)
+				fmt.Printf("\n\n%v> Enter Position Code: ", t.player.player2Name)
 				fmt.Scanln(&p2_Input)
 			}
 			t.Cast(t.player.Player2Move, p2_Input)
@@ -111,61 +66,12 @@ func (t *TicTacToe) Play(Input1 string, Input2 string, finished bool) {
 		diagonal1 := *t.PositionsMap[TL] + *t.PositionsMap[MM] + *t.PositionsMap[BR]
 		diagonal2 := *t.PositionsMap[TR] + *t.PositionsMap[MM] + *t.PositionsMap[BL]
 
-		player1Won := t.DidPlayer1Win(firstLine, secondLine, thirdLine, firstRow, secondRow, thirdRow, diagonal1, diagonal2)
-		player2Won := t.DidPlayer2Win(firstLine, secondLine, thirdLine, firstRow, secondRow, thirdRow, diagonal1, diagonal2)
+		didPlayer1Win := t.DidPlayer1Win(firstLine, secondLine, thirdLine, firstRow, secondRow, thirdRow, diagonal1, diagonal2)
+		didPlayer2Win := t.DidPlayer2Win(firstLine, secondLine, thirdLine, firstRow, secondRow, thirdRow, diagonal1, diagonal2)
 
-		switch {
-		case player1Won:
-			fmt.Printf("\n\n Congratulations: %v, You win!\n\n", Input1)
-			finished = true
-		case player2Won:
-			fmt.Printf("\n\n Congratulations: %v, You win!\n\n", Input2)
-			finished = true
-		case t.Draw():
-			fmt.Printf("\n\n Draw! Thanks for playing, %v, and %v \n\n", Input1, Input2)
-			finished = true
-		}
+		finished = t.HasGameFinished(didPlayer1Win, didPlayer2Win)
+
 	}
-}
-
-func (t *TicTacToe) Player1WinCondition() string {
-	return t.player.Player1Move + t.player.Player1Move + t.player.Player1Move
-}
-
-func (t *TicTacToe) DidPlayer1Win(conds ...string) bool {
-	for _, cond := range conds {
-		if cond == t.Player1WinCondition() {
-			return true
-		}
-	}
-	return false
-}
-
-func (t *TicTacToe) Draw() bool {
-
-	var count int
-	for k := range t.PositionsMap {
-		if *t.PositionsMap[k] == "{X}" || *t.PositionsMap[k] == "{O}" {
-			count++
-		}
-		if count == 9 {
-			return true
-		}
-	}
-	return false
-}
-
-func (t *TicTacToe) Player2WinCondition() string {
-	return t.player.Player2Move + t.player.Player2Move + t.player.Player2Move
-}
-
-func (t *TicTacToe) DidPlayer2Win(conds ...string) bool {
-	for _, cond := range conds {
-		if cond == t.Player2WinCondition() {
-			return true
-		}
-	}
-	return false
 }
 
 func Start() {
@@ -174,8 +80,8 @@ func Start() {
 	fmt.Println("\nThis program is a basic TicTacToe Implementation in Golang")
 
 	//inital variables
-	var Input1 string
-	var Input2 string
+	var player1Name string
+	var player2Name string
 	var finished bool
 
 	//Board Position Codes
@@ -187,22 +93,22 @@ func Start() {
 		fmt.Println()
 	}
 
-	for Input1 == "" {
+	for player1Name == "" {
 		print("\nPlayer 1: Enter your name: ")
-		fmt.Scanln(&Input1)
+		fmt.Scanln(&player1Name)
 	}
 
-	for Input2 == "" {
+	for player2Name == "" {
 		print("\nPlayer 2: Enter your name: ")
-		fmt.Scanln(&Input2)
+		fmt.Scanln(&player2Name)
 	}
 
 	boardCodes()
 
-	fmt.Printf("\n\n		%v is X", Input1)
-	fmt.Printf("		%v is O\n", Input2)
+	fmt.Printf("\n\n		%v is X", player1Name)
+	fmt.Printf("		%v is O\n", player2Name)
 
-	game := NewTicTacToe()
+	game := NewTicTacToe(player1Name, player2Name)
 
-	game.Play(Input1, Input2, finished)
+	game.Play(finished)
 }
