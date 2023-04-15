@@ -8,7 +8,7 @@ import (
 )
 
 func Start() {
-	fmt.Println(art.String("\nTicTacToe\n"))
+	fmt.Println(art.String("\n\ngo-TicTacToe\n\n"))
 
 	fmt.Println("\nThis program is a basic TicTacToe Implementation in Golang")
 
