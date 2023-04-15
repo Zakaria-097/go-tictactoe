@@ -1,8 +1,8 @@
 package main
 
-import "fmt"
+import "github.com/Zakaria-097/go-tictactoe/internal/game"
 
 func main() {
 
-	fmt.Println("Hello World")
+	game.Start()
 }

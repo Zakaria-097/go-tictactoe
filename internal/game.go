@@ -11,7 +11,7 @@ type Position string
 
 const (
 	TL Position = "tl"
-	TM          = "tm"
+	TM Position = "tm"
 	TR          = "tr"
 	ML          = "ml"
 	MM          = "mm"

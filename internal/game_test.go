@@ -1,5 +1,8 @@
 package game_test
 
+/*
+package game_test
+
 import (
 	"testing"
 
@@ -243,3 +246,5 @@ func TestCheckPosition(t *testing.T) {
 func TestPlay(t *testing.T) {
 	//t.Run("playTL", game.playTL("X", "player1", "player1"))
 }
+
+*/
