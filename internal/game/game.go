@@ -12,15 +12,6 @@ func Start() {
 
 	fmt.Println("\nThis program is a basic TicTacToe Implementation in Golang")
 
-	//Board Position Codes
-	boardCodes := func() {
-		fmt.Println("\n\n                   Board Position Codes")
-		fmt.Println("\n	              {tl}", "{tm}", "{tr}")
-		fmt.Println("\n	              {ml}", "{mm}", "{mr}")
-		fmt.Println("\n                      {bl}", "{bm}", "{br}")
-		fmt.Println()
-	}
-
 	//inital variables
 	var player1Name string
 	var player2Name string
@@ -36,7 +27,8 @@ func Start() {
 		fmt.Scanln(&player2Name)
 	}
 
-	boardCodes()
+	// show board position codes
+	showBoardCodes()
 
 	fmt.Printf("\n\n		%v is X", player1Name)
 	fmt.Printf("		%v is O\n", player2Name)
@@ -94,9 +86,9 @@ func (t *TicTacToe) Cast(m string, pos Position) {
 		t.player.playerTurn = !t.player.playerTurn
 
 		// show board
-		t.showBoard()
+		t.showBoardLatest()
 	} else {
-		t.showBoard()
+		t.showBoardLatest()
 		fmt.Printf("\n\nError: That position is already taken by %q. Try again.\n", strings.TrimSuffix(fmt.Sprint(*t.PositionsMap[pos])[1:], "}"))
 	}
 }
@@ -105,9 +97,18 @@ func (t *TicTacToe) isPositionAvailable(pos Position) bool {
 	return *t.PositionsMap[pos] == "{_}"
 }
 
-// showBoard state of the board.
-func (t *TicTacToe) showBoard() {
+// showBoardLatest will display latest state of the board.
+func (t *TicTacToe) showBoardLatest() {
 	for i := range t.Board {
 		fmt.Printf("\n\n	%s\n", strings.Join(t.Board[i], " "))
 	}
+}
+
+// showBoardCodes will display board's position codes.
+func showBoardCodes() {
+	fmt.Println("\n\n                   Board Position Codes")
+	fmt.Println("\n	              {tl}", "{tm}", "{tr}")
+	fmt.Println("\n	              {ml}", "{mm}", "{mr}")
+	fmt.Println("\n                      {bl}", "{bm}", "{br}")
+	fmt.Println()
 }
