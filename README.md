@@ -2,15 +2,15 @@
 
 A basic TicTacToe implementation in Golang
 
-## Getting started;
+### Getting started
 
-### Enter Player Names
+#### Enter Player Names
 
 ![](assets/start.png)
 
 Player 1 and Player 2 names are required.
 
-### Board Codes
+#### Board Codes
 
 ![](assets/boardCodes.png)
 
