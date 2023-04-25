@@ -1,6 +1,6 @@
 # go-tictactoe
 
-A basic TicTacToe implementation in Golang
+A simple [tictactoe](https://playtictactoe.org/) implementation in Golang
 
 ### Getting started
 
