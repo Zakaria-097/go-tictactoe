@@ -18,6 +18,6 @@ These are the board position codes. `tl` represents top left position, `bm` bott
 
 ### Start the game
 
-To start the game, simply ...
+To start the game, simply with;
 
 -   `make run`
