@@ -17,9 +17,10 @@ type Player struct {
 }
 
 type TicTacToe struct {
-	Board        [][]string
-	player       *Player
-	PositionsMap map[Position]Symbol
+	Board         [][]string
+	player        *Player
+	PositionsMap  map[Position]Symbol
+	PositionCodes []Position
 }
 
 // NewTicTacToe will initialise the board and assign noughts and crosses to users
@@ -33,6 +34,11 @@ func NewTicTacToe(player1Name, player2Name string) *TicTacToe {
 			{"{_}", "{_}", "{_}"},
 		},
 		PositionsMap: make(map[Position]Symbol),
+		PositionCodes: []Position{
+			TL, TM, TR,
+			ML, MM, MR,
+			BL, BM, BR,
+		},
 		player: &Player{
 			player1Name: player1Name,
 			player2Name: player2Name,
