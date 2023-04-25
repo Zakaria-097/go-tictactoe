@@ -31,7 +31,7 @@ func Start() {
 	// show board position codes
 	showBoardCodes()
 
-	fmt.Printf("\n\n		%v is X", player1Name)
+	fmt.Printf("\n\n  %v is X", player1Name)
 	fmt.Printf("		%v is O\n", player2Name)
 
 	game := NewTicTacToe(player1Name, player2Name)
@@ -115,15 +115,15 @@ func (t *TicTacToe) ValidPosition(pos Position) bool {
 // showBoardLatest will display latest state of the board.
 func (t *TicTacToe) showBoardLatest() {
 	for i := range t.Board {
-		fmt.Printf("\n\n	%s\n", strings.Join(t.Board[i], " "))
+		fmt.Printf("\n\n	 %s\n", strings.Join(t.Board[i], " "))
 	}
 }
 
 // showBoardCodes will display board's position codes.
 func showBoardCodes() {
-	fmt.Println("\n\n                   Board Position Codes")
-	fmt.Println("\n	              {tl}", "{tm}", "{tr}")
-	fmt.Println("\n	              {ml}", "{mm}", "{mr}")
-	fmt.Println("\n                      {bl}", "{bm}", "{br}")
+	fmt.Println("\n\n      Board Position Codes")
+	fmt.Println("\n\n	 {tl}", "{tm}", "{tr}")
+	fmt.Println("\n\n  	 {ml}", "{mm}", "{mr}")
+	fmt.Println("\n\n  	 {bl}", "{bm}", "{br}")
 	fmt.Println()
 }
