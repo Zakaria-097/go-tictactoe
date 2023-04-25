@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/zs5460/art"
+	"golang.org/x/exp/slices"
 )
 
 func Start() {
@@ -77,8 +78,17 @@ func (t *TicTacToe) Play(gameFinished bool) {
 }
 
 func (t *TicTacToe) Cast(m string, pos Position) {
-	if t.isPositionAvailable(pos) {
 
+	switch {
+	case !t.ValidPosition(pos):
+
+		// show board codes
+		showBoardCodes()
+
+		// log error
+		fmt.Printf("\n\n Unrecognized position code %q \n\n Please choose a valid board position code.", pos)
+
+	case t.isPositionAvailable(pos):
 		// cast symbol
 		*t.PositionsMap[pos] = m
 
@@ -87,14 +97,19 @@ func (t *TicTacToe) Cast(m string, pos Position) {
 
 		// show board
 		t.showBoardLatest()
-	} else {
+
+	default:
 		t.showBoardLatest()
-		fmt.Printf("\n\nError: That position is already taken by %q. Try again.\n", strings.TrimSuffix(fmt.Sprint(*t.PositionsMap[pos])[1:], "}"))
+		fmt.Printf("\nError: That position is already taken by %q. Try again.\n", strings.TrimSuffix(fmt.Sprint(*t.PositionsMap[pos])[1:], "}"))
 	}
 }
 
 func (t *TicTacToe) isPositionAvailable(pos Position) bool {
 	return *t.PositionsMap[pos] == "{_}"
+}
+
+func (t *TicTacToe) ValidPosition(pos Position) bool {
+	return slices.Contains(t.PositionCodes, pos)
 }
 
 // showBoardLatest will display latest state of the board.

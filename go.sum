@@ -1,2 +1,4 @@
 github.com/zs5460/art v0.2.0 h1:LErevbtLLt19PP+8xxeQgwT9lQkCOlXu4JC4d0iHNP0=
 github.com/zs5460/art v0.2.0/go.mod h1:rSm0CidXKfYg8Il0bFFBd5y8bnsEfteZd8VWI2u6CoQ=
+golang.org/x/exp v0.0.0-20230425010034-47ecfdc1ba53 h1:5llv2sWeaMSnA3w2kS57ouQQ4pudlXrR0dCgw51QK9o=
+golang.org/x/exp v0.0.0-20230425010034-47ecfdc1ba53/go.mod h1:V1LtkGg67GoY2N1AnLN78QLrzxkLyJw7RJb1gzOOz9w=
